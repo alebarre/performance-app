@@ -4,6 +4,7 @@ import { DataState } from '../../enum/datastate.enum';
 import { UserService } from '../../service/userService';
 import { State } from '../../interface/state';
 import { CustomHttpResponse, Profiles } from '../../interface/appstates';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -15,9 +16,12 @@ export class Profile implements OnInit {
 
   profileState$: Observable<State<CustomHttpResponse<Profiles>>>;
   private dataSubject = new BehaviorSubject<CustomHttpResponse<Profiles>>(null);
+  private isLoadingSubject = new BehaviorSubject<boolean>(false);
+  isLoading$ = this.isLoadingSubject.asObservable();
   readonly DataState = DataState;
 
   constructor(private userService: UserService) { }
+
   ngOnInit(): void {
     this.profileState$ = this.userService.profile$()
       .pipe(
@@ -30,6 +34,25 @@ export class Profile implements OnInit {
         startWith({ dataState: DataState.LOADING }),
         catchError((error: string) => {
           return of({ dataState: DataState.ERROR, appData: this.dataSubject.value, error })
+        })
+      )
+  }
+
+  updateProfile(profileForm: NgForm): void {
+    this.isLoadingSubject.next(true);
+    this.profileState$ = this.userService.update$(profileForm.value)
+      .pipe(
+        map(response => {
+          console.log(response);
+          this.dataSubject.next({...response, data: response.data});
+          this.isLoadingSubject.next(false);
+          return { dataState: DataState.LOADED, appData: this.dataSubject.value };
+
+        }),
+        startWith({ dataState: DataState.LOADED, appData: this.dataSubject.value }),
+        catchError((error: string) => {
+          this.isLoadingSubject.next(false);
+          return of({ dataState: DataState.LOADED, appData: this.dataSubject.value, error })
         })
       )
   }

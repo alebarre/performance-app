@@ -2,6 +2,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { CustomHttpResponse, Profiles } from '../interface/appstates';
+import { User } from '../interface/user';
+import { Key } from '../enum/key.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +32,31 @@ export class UserService {
 
   profile$ = () => <Observable<CustomHttpResponse<Profiles>>>
     this.http.get<CustomHttpResponse<Profiles>>
-      (`${this.server}/user/profile`, { headers: new HttpHeaders().set('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJDVVNUT01FUl9NQU5BR0VNRU5UX1NFUlZJQ0UiLCJzdWIiOiJhbGViYXJyZUBob3RtYWlsLmNvbSIsIkFVVEhPUklUSUVTIjpbIlJFQUQ6VVNFUiIsIlJFQUQ6Q1VTVE9NRVIiXSwiaXNzIjoiUEVSRk9STUFOQ0VfU1BPUlRTX0xMQyIsImV4cCI6MTc1MjI4OTQ4NywiaWF0IjoxNzUyMjg3Njg3fQ.-YiMKpfQPAAa05wFLyzbDx-Pm5j669RaoHSUsmK7ZbXzFmmFySYUoYrrbjyXIlVcQe4jhWGOofkFtr6XfikuOQ')})
+      (`${this.server}/user/profile`)
       .pipe(
         tap(console.log),
+        catchError(this.handleError)
+      );
+  
+  update$ = (user: User) => <Observable<CustomHttpResponse<Profiles>>>
+    this.http.patch<CustomHttpResponse<Profiles>>
+      (`${this.server}/user/update`, user)
+      .pipe(
+        tap(console.log),
+        catchError(this.handleError)
+      );
+
+  refreshToken$ = () => <Observable<CustomHttpResponse<Profiles>>>
+    this.http.get<CustomHttpResponse<Profiles>>
+      (`${this.server}/user/refresh/token`, {headers: {Authorization: `Bearer ${localStorage.getItem(Key.REFRESH_TOKEN)}`}})
+      .pipe(
+        tap(response => {
+          console.log(response);
+          localStorage.removeItem(Key.TOKEN);
+          localStorage.removeItem(Key.REFRESH_TOKEN);
+          localStorage.setItem(Key.TOKEN, response.data.access_token);
+          localStorage.setItem(Key.REFRESH_TOKEN, response.data.refresh_token);
+        }),
         catchError(this.handleError)
       );
 

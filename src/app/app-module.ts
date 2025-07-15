@@ -8,12 +8,13 @@ import { Register } from './component/register/register';
 import { Resetpassword } from './component/reset-password/reset-password';
 import { Verify } from './component/verify/verify';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { Customers } from './component/customers/customers';
 import { Profile } from './component/profile/profile';
 import { Home } from './component/home/home';
 import { NavBar } from './component/nav-bar/nav-bar';
 import { Stats } from './component/stats/stats';
+import { TokenInterceptor } from './interceptor/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import { Stats } from './component/stats/stats';
     HttpClientModule
   ],
   providers: [
-    provideBrowserGlobalErrorListeners()
+    provideBrowserGlobalErrorListeners(),
+    provideHttpClient(withFetch()),
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
   ],
   bootstrap: [App]
 })
