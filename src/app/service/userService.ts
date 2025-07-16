@@ -1,4 +1,8 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { CustomHttpResponse, Profiles } from '../interface/appstates';
@@ -6,29 +10,29 @@ import { User } from '../interface/user';
 import { Key } from '../enum/key.enum';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
   private readonly server: string = 'http://localhost:8080';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  login$ = (email: string, password: string) => <Observable<CustomHttpResponse<Profiles>>>
-    this.http.post<CustomHttpResponse<Profiles>>
-      (`${this.server}/user/login`, { email, password })
-      .pipe(
-        tap(console.log),
-        catchError(this.handleError)
-      );
+  login$ = (email: string, password: string) =>
+    <Observable<CustomHttpResponse<Profiles>>>this.http
+      .post<CustomHttpResponse<Profiles>>(`${this.server}/user/login`, {
+        email,
+        password,
+      })
+      .pipe(tap(console.log), catchError(this.handleError));
 
-  verifyCode$ = (email: string, code: string) => <Observable<CustomHttpResponse<Profiles>>>
-    this.http.get<CustomHttpResponse<Profiles>>
-      (`${this.server}/user/verify/code/${email}/${code}`)
-      .pipe(
-        tap(console.log),
-        catchError(this.handleError)
-      );
+  verifyCode$ = (email: string, code: string) =>
+    <Observable<CustomHttpResponse<Profiles>>>(
+      this.http
+        .get<CustomHttpResponse<Profiles>>(
+          `${this.server}/user/verify/code/${email}/${code}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
 
   profile$ = () => <Observable<CustomHttpResponse<Profiles>>>
     this.http.get<CustomHttpResponse<Profiles>>
@@ -73,5 +77,4 @@ export class UserService {
     }
     return throwError(() => errorMessage);
   }
-
 }
