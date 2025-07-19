@@ -15,5 +15,5 @@ export interface User {
     usingMfa: boolean;
     createdAt: Date;
     roleName: string;
-    Permissions: string;
+    permissions: string;
 }

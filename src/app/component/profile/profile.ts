@@ -44,7 +44,7 @@ export class Profile implements OnInit {
       .pipe(
         map(response => {
           console.log(response);
-          this.dataSubject.next({...response, data: response.data});
+          this.dataSubject.next({ ...response, data: response.data });
           this.isLoadingSubject.next(false);
           return { dataState: DataState.LOADED, appData: this.dataSubject.value };
 
@@ -56,5 +56,46 @@ export class Profile implements OnInit {
         })
       )
   }
+
+  updatePassword(passwordForm: NgForm): void {
+    this.isLoadingSubject.next(true);
+    if (passwordForm.value.newPassword === passwordForm.value.confirmNewPassword) {
+      this.profileState$ = this.userService.updatePassword$(passwordForm.value)
+        .pipe(
+          map(response => {
+            passwordForm.reset();
+            this.isLoadingSubject.next(false);
+            return { dataState: DataState.LOADED, appData: this.dataSubject.value };
+          }),
+          startWith({ dataState: DataState.LOADED, appData: this.dataSubject.value }),
+          catchError((error: string) => {
+            passwordForm.reset();
+            this.isLoadingSubject.next(false);
+            return of({ dataState: DataState.LOADED, appData: this.dataSubject.value, error })
+          })
+        )
+    } else {
+      passwordForm.reset();
+      this.isLoadingSubject.next(false);
+    }
+  }
+
+  updateRole(roleForm: NgForm): void {
+    this.isLoadingSubject.next(true);
+    console.log(roleForm.value);
+      this.profileState$ = this.userService.updateRoles$(roleForm.value.roleName)
+        .pipe(
+          map(response => {
+            this.dataSubject.next({ ...response, data: response.data });
+            this.isLoadingSubject.next(false);
+            return { dataState: DataState.LOADED, appData: this.dataSubject.value };
+          }),
+          startWith({ dataState: DataState.LOADED, appData: this.dataSubject.value }),
+          catchError((error: string) => {
+            this.isLoadingSubject.next(false);
+            return of({ dataState: DataState.LOADED, appData: this.dataSubject.value, error })
+          })
+        )
+    }
 
 }
