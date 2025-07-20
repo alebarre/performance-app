@@ -83,10 +83,66 @@ export class Profile implements OnInit {
   updateRole(roleForm: NgForm): void {
     this.isLoadingSubject.next(true);
     console.log(roleForm.value);
-      this.profileState$ = this.userService.updateRoles$(roleForm.value.roleName)
+    this.profileState$ = this.userService.updateRoles$(roleForm.value.roleName)
+      .pipe(
+        map(response => {
+          this.dataSubject.next({ ...response, data: response.data });
+          this.isLoadingSubject.next(false);
+          return { dataState: DataState.LOADED, appData: this.dataSubject.value };
+        }),
+        startWith({ dataState: DataState.LOADED, appData: this.dataSubject.value }),
+        catchError((error: string) => {
+          this.isLoadingSubject.next(false);
+          return of({ dataState: DataState.LOADED, appData: this.dataSubject.value, error })
+        })
+      )
+  }
+
+  updateAccountSettings(settingsForm: NgForm): void {
+    this.isLoadingSubject.next(true);
+    console.log(settingsForm.value);
+    this.profileState$ = this.userService.updateAccountSettings$(settingsForm.value)
+      .pipe(
+        map(response => {
+          this.dataSubject.next({ ...response, data: response.data });
+          this.isLoadingSubject.next(false);
+          return { dataState: DataState.LOADED, appData: this.dataSubject.value };
+        }),
+        startWith({ dataState: DataState.LOADED, appData: this.dataSubject.value }),
+        catchError((error: string) => {
+          this.isLoadingSubject.next(false);
+          return of({ dataState: DataState.LOADED, appData: this.dataSubject.value, error })
+        })
+      )
+  }
+
+  toglleMfa(): void {
+    this.isLoadingSubject.next(true);
+    this.profileState$ = this.userService.toggleMfa$()
+      .pipe(
+        map(response => {
+          this.dataSubject.next({ ...response, data: response.data });
+          this.isLoadingSubject.next(false);
+          return { dataState: DataState.LOADED, appData: this.dataSubject.value };
+        }),
+        startWith({ dataState: DataState.LOADED, appData: this.dataSubject.value }),
+        catchError((error: string) => {
+          this.isLoadingSubject.next(false);
+          return of({ dataState: DataState.LOADED, appData: this.dataSubject.value, error })
+        })
+      )
+  }
+
+  updatePicture(image: File): void {
+    if (image) {
+      this.isLoadingSubject.next(true);
+      this.profileState$ = this.userService.updateImage$(this.getFormData(image))
         .pipe(
           map(response => {
-            this.dataSubject.next({ ...response, data: response.data });
+            console.log(response);
+            this.dataSubject.next({ ...response, 
+              data: { ...response.data, 
+                user: { ...response.data.user, imageUrl: `${response.data.user.imageUrl}?time=${new Date().getTime()}`}} });
             this.isLoadingSubject.next(false);
             return { dataState: DataState.LOADED, appData: this.dataSubject.value };
           }),
@@ -97,5 +153,12 @@ export class Profile implements OnInit {
           })
         )
     }
+  }
+  
+  private getFormData(image: File): FormData {
+    const formData  = new FormData();
+    formData.append('image', image);
+    return formData;
+  }
 
 }

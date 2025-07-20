@@ -15,7 +15,7 @@ import { Key } from '../enum/key.enum';
 export class UserService {
   private readonly server: string = 'http://localhost:8080';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login$ = (email: string, password: string) =>
     <Observable<CustomHttpResponse<Profiles>>>this.http
@@ -41,7 +41,7 @@ export class UserService {
         tap(console.log),
         catchError(this.handleError)
       );
-  
+
   update$ = (user: User) => <Observable<CustomHttpResponse<Profiles>>>
     this.http.patch<CustomHttpResponse<Profiles>>
       (`${this.server}/user/update`, user)
@@ -52,7 +52,7 @@ export class UserService {
 
   refreshToken$ = () => <Observable<CustomHttpResponse<Profiles>>>
     this.http.get<CustomHttpResponse<Profiles>>
-      (`${this.server}/user/refresh/token`, {headers: {Authorization: `Bearer ${localStorage.getItem(Key.REFRESH_TOKEN)}`}})
+      (`${this.server}/user/refresh/token`, { headers: { Authorization: `Bearer ${localStorage.getItem(Key.REFRESH_TOKEN)}` } })
       .pipe(
         tap(response => {
           console.log(response);
@@ -71,10 +71,34 @@ export class UserService {
         tap(console.log),
         catchError(this.handleError)
       );
-  
+
   updateRoles$ = (roleName: string) => <Observable<CustomHttpResponse<Profiles>>>
     this.http.patch<CustomHttpResponse<Profiles>>
       (`${this.server}/user/update/role/${roleName}`, {})
+      .pipe(
+        tap(console.log),
+        catchError(this.handleError)
+      );
+
+  updateAccountSettings$ = (settings: { enabled: boolean, notLocked: boolean }) => <Observable<CustomHttpResponse<Profiles>>>
+    this.http.patch<CustomHttpResponse<Profiles>>
+      (`${this.server}/user/update/settings`, settings)
+      .pipe(
+        tap(console.log),
+        catchError(this.handleError)
+      );
+
+  toggleMfa$ = () => <Observable<CustomHttpResponse<Profiles>>>
+    this.http.patch<CustomHttpResponse<Profiles>>
+      (`${this.server}/user/togglemfa`, {})
+      .pipe(
+        tap(console.log),
+        catchError(this.handleError)
+      );
+  
+  updateImage$ = (formData: FormData) => <Observable<CustomHttpResponse<Profiles>>>
+    this.http.patch<CustomHttpResponse<Profiles>>
+      (`${this.server}/user/update/image`, formData)
       .pipe(
         tap(console.log),
         catchError(this.handleError)
