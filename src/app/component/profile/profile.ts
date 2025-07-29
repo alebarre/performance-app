@@ -5,6 +5,7 @@ import { UserService } from '../../service/userService';
 import { State } from '../../interface/state';
 import { CustomHttpResponse, Profiles } from '../../interface/appstates';
 import { NgForm } from '@angular/forms';
+import { EventType } from '../../enum/event-type.enum';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +19,10 @@ export class Profile implements OnInit {
   private dataSubject = new BehaviorSubject<CustomHttpResponse<Profiles>>(null);
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
+  private showLogsSubject = new BehaviorSubject<boolean>(false);
+  showLogs$ = this.showLogsSubject.asObservable();
   readonly DataState = DataState;
+  readonly EventType = EventType;
 
   constructor(private userService: UserService) { }
 
@@ -63,6 +67,8 @@ export class Profile implements OnInit {
       this.profileState$ = this.userService.updatePassword$(passwordForm.value)
         .pipe(
           map(response => {
+            console.log(response);
+            this.dataSubject.next({ ...response, data: response.data });
             passwordForm.reset();
             this.isLoadingSubject.next(false);
             return { dataState: DataState.LOADED, appData: this.dataSubject.value };
@@ -141,8 +147,7 @@ export class Profile implements OnInit {
           map(response => {
             console.log(response);
             this.dataSubject.next({ ...response, 
-              data: { ...response.data, 
-                user: { ...response.data.user, imageUrl: `${response.data.user.imageUrl}?time=${new Date().getTime()}`}} });
+              data: { ...response.data, user: { ...response.data.user, imageUrl: `${response.data.user.imageUrl}?time=${new Date().getTime()}`}} });
             this.isLoadingSubject.next(false);
             return { dataState: DataState.LOADED, appData: this.dataSubject.value };
           }),
@@ -153,6 +158,10 @@ export class Profile implements OnInit {
           })
         )
     }
+  }
+
+  toggleLogs(): void {
+    this.showLogsSubject.next(!this.showLogsSubject.value);
   }
   
   private getFormData(image: File): FormData {
