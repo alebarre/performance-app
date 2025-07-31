@@ -15,6 +15,8 @@ import { Home } from './component/home/home';
 import { NavBar } from './component/nav-bar/nav-bar';
 import { Stats } from './component/stats/stats';
 import { TokenInterceptor } from './interceptor/token.interceptor';
+import { ReportModal } from './component/modals/report-modal/report-modal';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -27,13 +29,15 @@ import { TokenInterceptor } from './interceptor/token.interceptor';
     Profile,
     Home,
     NavBar,
-    Stats
+    Stats,
+    ReportModal
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

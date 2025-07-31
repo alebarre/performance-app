@@ -331,7 +331,7 @@
                                  </td>
                                  <td>{{ event.description }}</td>
                                  <td>
-                                    <button type="button" class="btn btn-sm"
+                                    <button type="button" (click)="openReportModal(event)" class="btn btn-sm"
                                        style="background-color: #fd5d0d; font-weight: 450;">Report</button>
                                  </td>
                               </tr>
@@ -350,3 +350,5 @@
 <form enctype="multipart/form-data" style="display:none;">
    <input type="file" #fileInput (change)="updatePicture($event.target.files[0])" name="image" id="image" placeholder="file" ngModel accept="image/*" />
 </form>
+
+<app-report-modal></app-report-modal>

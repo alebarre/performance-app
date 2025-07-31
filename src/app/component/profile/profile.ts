@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable, of, startWith } from 'rxjs';
 import { DataState } from '../../enum/datastate.enum';
 import { UserService } from '../../service/userService';
@@ -6,6 +6,11 @@ import { State } from '../../interface/state';
 import { CustomHttpResponse, Profiles } from '../../interface/appstates';
 import { NgForm } from '@angular/forms';
 import { EventType } from '../../enum/event-type.enum';
+import { MatDialog } from '@angular/material/dialog';
+import { ReportModal } from '../modals/report-modal/report-modal';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
 
 @Component({
   selector: 'app-profile',
@@ -23,14 +28,20 @@ export class Profile implements OnInit {
   showLogs$ = this.showLogsSubject.asObservable();
   readonly DataState = DataState;
   readonly EventType = EventType;
+  profileEvents: any[] = [];
 
-  constructor(private userService: UserService) { }
+  @ViewChild(ReportModal) modal!: ReportModal;
+
+  @ViewChild('pdfContent') pdfContent!: ElementRef;
+
+  constructor(private userService: UserService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.profileState$ = this.userService.profile$()
       .pipe(
         map(response => {
           console.log(response);
+          this.profileEvents = response.data.events;
           this.dataSubject.next(response);
           return { dataState: DataState.LOADED, appData: response };
 
@@ -160,6 +171,13 @@ export class Profile implements OnInit {
     }
   }
 
+  openReportModal(event: any): void {
+    this.modal.user = this.dataSubject.value.data.user;
+    this.modal.profileEvents = this.profileEvents;
+    this.modal.userEvent = event;
+    this.modal.open();
+  }
+
   toggleLogs(): void {
     this.showLogsSubject.next(!this.showLogsSubject.value);
   }
@@ -169,5 +187,4 @@ export class Profile implements OnInit {
     formData.append('image', image);
     return formData;
   }
-
 }

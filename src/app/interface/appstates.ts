@@ -24,7 +24,7 @@ export interface CustomHttpResponse<T> {
 
 export interface Profiles {
     user?: User;
-    evenets?: Events[];
+    events?: Events[];
     roles?: Role[];
     access_token: string;
     refresh_token?: string;

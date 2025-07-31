@@ -1,0 +1,36 @@
+<!-- BACKDROP -->
+<div class="modal-backdrop fade show" *ngIf="show"></div>
+
+<!-- MODAL -->
+<div *ngIf="show" class="modal fade show d-block" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" #pdfContent>
+      <div class="modal-header">
+        <h5 class="modal-title">Detalhes do Evento</h5>
+        <button class="btn-close" (click)="close()"></button>
+      </div>
+
+      <div class="modal-body">
+        <p>Usuário: {{ user.firstName }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Evento selecionado: <span class="badge pill" [ngClass]="[
+                                       eventType === 'LOGIN_ATTEMPT_SUCCESS' ? 'bg-success' : '',
+                                       eventType === 'LOGIN_ATTEMPT' ? 'bg-warning' : '',
+                                       eventType === 'PROFILE_UPDATE' ? 'bg-primary' : '',
+                                       eventType === 'LOGIN_ATTEMPT_FAILURE' ? 'bg-danger' : '',
+                                       eventType === 'PROFILE_PICTURE_UPDATE' ? 'bg-primary' : '',
+                                       eventType === 'ROLE_UPDATE' ? 'bg-info' : '',
+                                       eventType === 'ACCOUNT_SETTINGS_UPDATE' ? 'bg-warning' : '',
+                                       eventType === 'PASSWORD_UPDATE' ? 'bg-warning' : '',
+                                       eventType === 'MFA_UPDATE' ? 'bg-info' : '',
+                                       ]">
+                                       {{ eventType }}
+                                    </span> em: {{ eventDate | date: 'd/MM/yyyy' }}</p>
+      </div>
+<div class="modal-footer">
+        <button class="btn btn-warning" (click)="generateProfileEventReport()">Consolidado das atividades</button>
+        <button class="btn btn-secondary" (click)="close()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

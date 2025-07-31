@@ -1,0 +1,24 @@
+.modal-backdrop {
+  z-index: 1050; /* menor que o modal */
+}
+
+.modal {
+  z-index: 1055; /* garante que fique acima */
+}
+
+.modal-header {
+  background-color: #c6d8e9;
+}
+
+.modal-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+  background-color: #f1f4f7;
+}
