@@ -8,8 +8,7 @@ import { NgForm } from '@angular/forms';
 import { EventType } from '../../enum/event-type.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { ReportModal } from '../modals/report-modal/report-modal';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import { ErrorModal } from '../modals/error-modal/error-modal';
 
 
 @Component({
@@ -29,8 +28,11 @@ export class Profile implements OnInit {
   readonly DataState = DataState;
   readonly EventType = EventType;
   profileEvents: any[] = [];
+  message = '';
 
   @ViewChild(ReportModal) modal!: ReportModal;
+
+  @ViewChild(ErrorModal) errorModal!: ErrorModal;
 
   @ViewChild('pdfContent') pdfContent!: ElementRef;
 
@@ -66,6 +68,7 @@ export class Profile implements OnInit {
         }),
         startWith({ dataState: DataState.LOADED, appData: this.dataSubject.value }),
         catchError((error: string) => {
+          this.openErrorModal(error);
           this.isLoadingSubject.next(false);
           return of({ dataState: DataState.LOADED, appData: this.dataSubject.value, error })
         })
@@ -86,13 +89,17 @@ export class Profile implements OnInit {
           }),
           startWith({ dataState: DataState.LOADED, appData: this.dataSubject.value }),
           catchError((error: string) => {
+            this.openErrorModal(error);
             passwordForm.reset();
             this.isLoadingSubject.next(false);
             return of({ dataState: DataState.LOADED, appData: this.dataSubject.value, error })
           })
         )
     } else {
+      this.message = 'As senhas não coincidem. Por favor, tente novamente.';
+      this.openErrorModal(this.message);
       passwordForm.reset();
+      this.profileState$ = of({ dataState: DataState.LOADED, appData: this.dataSubject.value });
       this.isLoadingSubject.next(false);
     }
   }
@@ -176,6 +183,11 @@ export class Profile implements OnInit {
     this.modal.profileEvents = this.profileEvents;
     this.modal.userEvent = event;
     this.modal.open();
+  }
+
+  openErrorModal(message: string): void {
+      this.errorModal.errorMessage = message;
+      this.errorModal.open();
   }
 
   toggleLogs(): void {

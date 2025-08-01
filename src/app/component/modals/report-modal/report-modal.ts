@@ -51,6 +51,8 @@ generateProfileEventReport(): void {
     if (Array.isArray(this.profileEvents)) {
       this.profileEvents.forEach((ev: any, idx: number) => {
       const formattedDate = ev.createdAt ? new Date(ev.createdAt).toLocaleDateString() : '';
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(14);
       const eventDetails = `
         Tipo: ${ev.type}
         Data: ${formattedDate}

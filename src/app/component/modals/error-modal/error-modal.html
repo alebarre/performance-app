@@ -1,0 +1,22 @@
+<!-- BACKDROP -->
+<div class="modal-backdrop fade show" *ngIf="show"></div>
+
+<!-- MODAL -->
+<div *ngIf="show" class="modal fade show d-block" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" #pdfContent>
+      <div class="modal-header">
+        <h2 class="modal-title">Verifique os Erros!</h2>
+        <button class="btn-close" (click)="close()"></button>
+      </div>
+
+      <div class="modal-body">
+        <h5>{{ modalMessage }}</h5>
+        
+      </div>
+        <div class="modal-footer">
+        <button class="btn btn-danger" (click)="close()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -17,6 +17,7 @@ import { Stats } from './component/stats/stats';
 import { TokenInterceptor } from './interceptor/token.interceptor';
 import { ReportModal } from './component/modals/report-modal/report-modal';
 import { CommonModule } from '@angular/common';
+import { ErrorModal } from './component/modals/error-modal/error-modal';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CommonModule } from '@angular/common';
     Home,
     NavBar,
     Stats,
-    ReportModal
+    ReportModal,
+    ErrorModal
   ],
   imports: [
     BrowserModule,
