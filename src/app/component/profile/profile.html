@@ -1,6 +1,6 @@
 <ng-container *ngIf="(profileState$ | async) as state">
    <ng-container>
-      <app-nav-bar></app-nav-bar>
+      <app-nav-bar [user]="state?.appData?.data?.user"></app-nav-bar>
       <!-- <div>{{ state?.appData?.data?.user?.email| json }}</div> -->
       <!-- <div>{{ state | json }} </div> -->
       <section>

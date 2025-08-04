@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../service/userService';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -21,7 +21,7 @@ import { Key } from '../../enum/key.enum';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login {
+export class Login implements OnInit {
   // Observable to hold the login state, initialized with a loaded state, this will be updated based on the login process
   public loginState$: Observable<LoginState> = of({
     dataState: DataState.LOADED,
@@ -35,6 +35,10 @@ export class Login {
   public readonly DataState = DataState;
 
   constructor(private router: Router, private userService: UserService) {}
+  
+  ngOnInit(): void {
+    this.userService.isAuthenticated() ? this.router.navigate(['/']) : this.router.navigate(['/login']);
+  }
 
   /**
    * This method is called when the user submits the login form. It calls the userService to log in and

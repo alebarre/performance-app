@@ -1,19 +1,21 @@
 import {
   HttpClient,
   HttpErrorResponse,
-  HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { CustomHttpResponse, Profiles } from '../interface/appstates';
 import { User } from '../interface/user';
 import { Key } from '../enum/key.enum';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  
   private readonly server: string = 'http://localhost:8080';
+  private readonly jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient) { }
 
@@ -103,6 +105,14 @@ export class UserService {
         tap(console.log),
         catchError(this.handleError)
       );
+
+  isAuthenticated = (): boolean => (this.jwtHelper.decodeToken<string>(localStorage.getItem(Key.TOKEN)) 
+                              && !this.jwtHelper.isTokenExpired(localStorage.getItem(Key.TOKEN))) ? true : false; 
+  
+  logOut = (): void => {
+    localStorage.removeItem(Key.TOKEN);
+    localStorage.removeItem(Key.REFRESH_TOKEN);
+  }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage: string;

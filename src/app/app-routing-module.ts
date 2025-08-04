@@ -7,6 +7,7 @@ import { Verify } from './component/verify/verify';
 import { Customers } from './component/customers/customers';
 import { Profile } from './component/profile/profile';
 import { Home } from './component/home/home';
+import { AuthenticationGuard } from './component/guard/authentication.guard';
 
 const routes: Routes = [
   { path: 'login', component: Login },
@@ -14,9 +15,9 @@ const routes: Routes = [
   { path: 'resetpassword', component: Resetpassword },
   { path: 'user/verify/account/:key', component: Verify },
   { path: 'user/verify/password/:key', component: Verify },
-  { path: 'customers', component: Customers },
-  { path: 'profile', component: Profile },
-  { path: '', component: Home },
+  { path: 'customers', component: Customers, canActivate: [AuthenticationGuard] },
+  { path: 'profile', component: Profile, canActivate: [AuthenticationGuard] },
+  { path: '', component: Home, canActivate: [AuthenticationGuard] },
   { path: '', redirectTo: '/', pathMatch: 'full' },
   { path: '**', component: Login },
 ];
