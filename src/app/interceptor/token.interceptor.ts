@@ -2,7 +2,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, Htt
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, Observable, switchMap, throwError } from 'rxjs';
 import { Key } from '../enum/key.enum';
-import { UserService } from '../service/userService';
+import { UserService } from '../service/user.service.ts';
 import { CustomHttpResponse, Profiles } from '../interface/appstates';
 import { Profile } from '../component/profile/profile';
 

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { BehaviorSubject, catchError, map, Observable, of, startWith } from 'rxjs';
 import { DataState } from '../../enum/datastate.enum';
-import { UserService } from '../../service/userService';
+import { UserService } from '../../service/user.service.ts';
 import { State } from '../../interface/state';
 import { CustomHttpResponse, Profiles } from '../../interface/appstates';
 import { NgForm } from '@angular/forms';
