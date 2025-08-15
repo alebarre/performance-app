@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../service/user.service.ts';
+import { UserService } from '../../service/user.service.ts.js';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -10,16 +10,16 @@ import {
   of,
   startWith,
 } from 'rxjs';
-import { LoginState } from '../../interface/appstates';
-import { DataState } from '../../enum/datastate.enum';
+import { LoginState } from '../../interface/appstates.js';
+import { DataState } from '../../enum/datastate.enum.js';
 import { dateTimestampProvider } from 'rxjs/internal/scheduler/dateTimestampProvider';
-import { Key } from '../../enum/key.enum';
+import { Key } from '../../enum/key.enum.js';
 
 @Component({
   selector: 'app-login',
   standalone: false,
-  templateUrl: './login.html',
-  styleUrl: './login.css',
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
 })
 export class Login implements OnInit {
   // Observable to hold the login state, initialized with a loaded state, this will be updated based on the login process

@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-reset-password',
   standalone: false,
-  templateUrl: './reset-password.html',
-  styleUrl: './reset-password.css'
+  templateUrl: './reset-password.component.html',
+  styleUrl: './reset-password.component.css'
 })
 export class Resetpassword {
 

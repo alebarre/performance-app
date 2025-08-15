@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-customers',
   standalone: false,
-  templateUrl: './customers.html',
-  styleUrl: './customers.css'
+  templateUrl: './customers.component.html',
+  styleUrl: './customers.component.css'
 })
 export class Customers {
 

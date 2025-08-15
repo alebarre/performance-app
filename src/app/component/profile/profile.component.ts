@@ -7,15 +7,15 @@ import { CustomHttpResponse, Profiles } from '../../interface/appstates';
 import { NgForm } from '@angular/forms';
 import { EventType } from '../../enum/event-type.enum';
 import { MatDialog } from '@angular/material/dialog';
-import { ReportModal } from '../modals/report-modal/report-modal';
-import { ErrorModal } from '../modals/error-modal/error-modal';
+import { ReportModal } from '../modals/report-modal/report-modal.component';
+import { ErrorModal } from '../modals/error-modal/error-modal.component';
 
 
 @Component({
   selector: 'app-profile',
   standalone: false,
-  templateUrl: './profile.html',
-  styleUrl: './profile.css'
+  templateUrl: './profile.component.html',
+  styleUrl: './profile.component.css'
 })
 export class Profile implements OnInit {
 
@@ -43,7 +43,6 @@ export class Profile implements OnInit {
       .pipe(
         map(response => {
           console.log(response);
-          this.profileEvents = response.data.events;
           this.dataSubject.next(response);
           return { dataState: DataState.LOADED, appData: response };
 
@@ -64,7 +63,6 @@ export class Profile implements OnInit {
           this.dataSubject.next({ ...response, data: response.data });
           this.isLoadingSubject.next(false);
           return { dataState: DataState.LOADED, appData: this.dataSubject.value };
-
         }),
         startWith({ dataState: DataState.LOADED, appData: this.dataSubject.value }),
         catchError((error: string) => {

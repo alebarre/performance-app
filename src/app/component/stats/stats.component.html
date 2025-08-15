@@ -7,8 +7,8 @@
                    <span class="mini-stat-icon">
                       <i class="bi bi-people-fill fg-facebook"></i> </span>
                    <div class="mini-stat-info text-end">
-                      <span>1</span>
-                      Total Customers
+                      <span>{{ stats?.totalCustomers }}</span>
+                      TOTAL CUSTOMERS
                    </div>
                 </div>
              </div>
@@ -17,8 +17,8 @@
                    <span class="mini-stat-icon">
                       <i class="bi bi-receipt-cutoff fg-googleplus"></i></span>
                    <div class="mini-stat-info text-end">
-                      <span>5</span>
-                      Total Invoices
+                      <span>{{ stats?.totalInvoices }}</span>
+                      TOTAL INVOICES
                    </div>
                 </div>
              </div>
@@ -27,8 +27,8 @@
                    <span class="mini-stat-icon">
                       <i class="bi bi-currency-dollar fg-twitter"></i></span>
                    <div class="mini-stat-info text-end">
-                      <span>$580</span>
-                      Total Billed
+                      <span>${{ stats?.totalBilled }}</span>
+                      TOTAL BILLED
                    </div>
                 </div>
              </div>

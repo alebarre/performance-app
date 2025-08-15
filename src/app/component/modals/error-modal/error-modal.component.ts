@@ -3,8 +3,8 @@ import { Component, Input } from '@angular/core';
 @Component({
   standalone: false,
   selector: 'app-error-modal',
-  templateUrl: './error-modal.html',
-  styleUrls: ['./error-modal.css']
+  templateUrl: './error-modal.component.html',
+  styleUrls: ['./error-modal.component.css']
 })
 export class ErrorModal {
 

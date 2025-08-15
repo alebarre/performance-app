@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Login } from './component/login/login';
-import { Register } from './component/register/register';
-import { Resetpassword } from './component/reset-password/reset-password';
-import { Verify } from './component/verify/verify';
-import { Customers } from './component/customers/customers';
-import { Profile } from './component/profile/profile';
-import { Home } from './component/home/home';
+import { Login } from './component/login/login.component';
+import { Register } from './component/register/register.component';
+import { Resetpassword } from './component/reset-password/reset-password.component';
+import { Verify } from './component/verify/verify.component';
+import { Customers } from './component/customers/customers.component';
+import { Profile } from './component/profile/profile.component';
+import { Home } from './component/home/home.component';
 import { AuthenticationGuard } from './component/guard/authentication.guard';
 
 const routes: Routes = [

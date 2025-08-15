@@ -4,7 +4,7 @@ import { BehaviorSubject, catchError, Observable, switchMap, throwError } from '
 import { Key } from '../enum/key.enum';
 import { UserService } from '../service/user.service.ts';
 import { CustomHttpResponse, Profiles } from '../interface/appstates';
-import { Profile } from '../component/profile/profile';
+import { Profile } from '../component/profile/profile.component';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -34,7 +34,7 @@ export class TokenInterceptor implements HttpInterceptor {
         );
     }
 
-    private handleRefreshToken(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    public handleRefreshToken(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if(!this.isTokenRefreshing) {
             console.log('Refreshing token...');
             this.isTokenRefreshing = true;

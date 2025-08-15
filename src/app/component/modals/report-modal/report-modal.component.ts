@@ -4,8 +4,8 @@ import jsPDF from 'jspdf';
 @Component({
   standalone: false,
   selector: 'app-report-modal',
-  templateUrl: './report-modal.html',
-  styleUrls: ['./report-modal.css']
+  templateUrl: './report-modal.component.html',
+  styleUrls: ['./report-modal.component.css']
 })
 export class ReportModal {
 

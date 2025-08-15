@@ -5,14 +5,14 @@ import { CustomHttpResponse, Page, Profiles } from '../../interface/appstates';
 import { UserService } from '../../service/user.service.ts';
 import { CustomerService } from '../../service/customer.service';
 import { State } from '../../interface/state';
-import { Profile } from '../profile/profile';
+import { Profile } from '../profile/profile.component';
 import { User } from '../../interface/user';
 
 @Component({
   selector: 'app-home',
   standalone: false,
-  templateUrl: './home.html',
-  styleUrl: './home.css'
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css'
 })
 export class Home implements OnInit {
 
