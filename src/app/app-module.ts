@@ -18,6 +18,11 @@ import { TokenInterceptor } from './interceptor/token.interceptor';
 import { ReportModal } from './component/modals/report-modal/report-modal.component';
 import { CommonModule } from '@angular/common';
 import { ErrorModal } from './component/modals/error-modal/error-modal.component';
+import { NewCustomerComponent } from './component/new-customer.component/new-customer.component';
+import { NewInvoiceComponent } from './component/new-invoice.component/new-invoice.component';
+import { InvoicesComponent } from './component/invoices.component/invoices.component';
+import { CustomerComponent } from './component/customer.component/customer.component';
+import { InvoiceComponent } from './component/invoice.component/invoice.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +37,12 @@ import { ErrorModal } from './component/modals/error-modal/error-modal.component
     NavBar,
     StatsComponent,
     ReportModal,
-    ErrorModal
+    ErrorModal,
+    NewCustomerComponent,
+    NewInvoiceComponent,
+    InvoicesComponent,
+    CustomerComponent,
+    InvoiceComponent
   ],
   imports: [
     BrowserModule,
