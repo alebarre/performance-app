@@ -13,7 +13,7 @@ import { Customer } from '../interface/customer';
   providedIn: 'root',
 })
 export class CustomerService {
-  
+
   private readonly server: string = 'http://localhost:8080';
 
   constructor(private http: HttpClient) { }
@@ -22,12 +22,20 @@ export class CustomerService {
     <Observable<CustomHttpResponse<Page & User & Stats>>>this.http
       .get<CustomHttpResponse<Page & User & Stats>>(`${this.server}/customers/list?page=${page}`)
       .pipe(tap(console.log), catchError(this.handleError));
-  
+
   newCustomers$ = (customer: Customer) => <Observable<CustomHttpResponse<Customer & User>>>
     this.http
       .post<CustomHttpResponse<Customer & User>>
       (`${this.server}/customers/create`, customer)
       .pipe(tap(console.log), catchError(this.handleError));
+
+  searchCustomers$ = (name: string = '', page: number = 0) => <Observable<CustomHttpResponse<Page & User>>>
+    this.http.get<CustomHttpResponse<Page & User>>
+      (`${this.server}/customers/search?name=${name}&page=${page}`)
+      .pipe(
+        tap(console.log),
+        catchError(this.handleError)
+      );
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage: string;

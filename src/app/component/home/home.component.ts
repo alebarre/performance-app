@@ -7,6 +7,8 @@ import { CustomerService } from '../../service/customer.service';
 import { State } from '../../interface/state';
 import { Profile } from '../profile/profile.component';
 import { User } from '../../interface/user';
+import { Router } from '@angular/router';
+import { Customer } from '../../interface/customer';
 
 @Component({
   selector: 'app-home',
@@ -32,7 +34,7 @@ export class Home implements OnInit {
   profileEvents: any[] = [];
   message = '';
 
-  constructor(private userService: UserService, private customerService: CustomerService) { }
+  constructor(private router: Router, private customerService: CustomerService) { }
 
   ngOnInit(): void {
     this.homeState$ = this.customerService.customers$()
@@ -69,6 +71,10 @@ export class Home implements OnInit {
 
   goToNextOrPreviusPage(direction?: string): void {
     this.goToPage(direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1);
+  }
+
+  selectCustomer(customer: Customer): void {
+    this.router.navigate([`/customer/${customer.id}`]);
   }
 
 }

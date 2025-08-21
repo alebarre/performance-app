@@ -9,7 +9,7 @@ import { Resetpassword } from './component/reset-password/reset-password.compone
 import { Verify } from './component/verify/verify.component';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
-import { Customers } from './component/customers/customers.component';
+import { CustomersComponent } from './component/customers/customers.component';
 import { Profile } from './component/profile/profile.component';
 import { Home } from './component/home/home.component';
 import { NavBar } from './component/nav-bar/nav-bar';
@@ -31,7 +31,7 @@ import { InvoiceComponent } from './component/invoice.component/invoice.componen
     Register,
     Resetpassword,
     Verify,
-    Customers,
+    CustomersComponent,
     Profile,
     Home,
     NavBar,
