@@ -74,7 +74,7 @@ export class Home implements OnInit {
   }
 
   selectCustomer(customer: Customer): void {
-    this.router.navigate([`/customer/${customer.id}`]);
+    this.router.navigate([`/customers/${customer.id}`]);
   }
 
 }
